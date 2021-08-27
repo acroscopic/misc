@@ -26,7 +26,7 @@ do
   binary=$a$b$c$d$e$f$g$h
   number=$((aa+bb+cc+dd+ee+ff+gg+hh))
 
-
+#guessing what number the binary characters represent
   echo "Please enter the decimal number associated with $binary"
   read guess
 
