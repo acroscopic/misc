@@ -1,0 +1,43 @@
+ping 8.8.8.8
+passwd #root
+loadkeys us
+timedatectl set-ntp true
+dd if=/dev/zero of=/dev/sda bs=1M count=1 #dangerous 0_0
+cfdisk /dev/sda #learn cli way
+mkswap /dev/sda1
+swapon /dev/sda1
+mkfs.ext4 /dev/sda2
+mount /dev/sda2 /mnt
+pacstrap /mnt base base-devel
+genfstab -p /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
+hwclock --systohc --utc
+nano /etc/locale.gen #uncomment en_US.UTF and ISO
+locale.gen
+echo LANG=en_US.UTF-8 > /etc/locale.conf
+echo "KEYMAP=us" > /etc/vconsole.conf 
+echo "anon" > /etc/hostname
+nano /etc/hosts #look at wiki
+passwd *password* #root
+useradd -m -g users -G wheel -s /bin/bash x
+passwd x *password*
+pacman -S grub os-prober
+grub-intsall /dev/sda/
+grub-mkconfig -o /boot/grub/grub.cfg
+reboot #unplug usb
+
+systemctl start dhcpd
+dhcpd
+sleep 10
+ping 8.8.8.8
+
+pacman -Syyu
+pacman -S xorg xorg-server openbox obconf lxappearance tint2 pycom nano lightdm networkmanager network-manager-applet lightdm-gtk-greeter cups system-config-printer
+systemctl enable lightdm.service
+systemctl enable NetworkManager.service
+systemctl enable org.cups.cupsd.service
+reboot
+
+
+
